@@ -1,0 +1,42 @@
+<html>
+  <head>  
+    <meta name="google-signin-client_id" content="448687105038-ta7e3j4dnd39l774ovqq3ilieerb9nhg.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <style>
+
+      #mocha-stats {
+        position: relative!important;
+      }
+      .test-wnd{
+        background-color: whitesmoke;
+      }
+    </style>
+</head>
+<body>
+  <div id="mocha" style="margin: 1px 10px;"></div>
+  <div id="paletteContainer">
+    <div id="palette"></div>
+    <div class="hsplit"></div>
+  </div>
+  <div id="mainContainer">
+    <div id='toolbox'></div>
+    <div id="wireframeContainer">
+      <div id="wireframeWrap">
+        <div id="draggingBar">
+          <span class="ui-icon ui-icon-closethick"></span>
+          <span class="ui-icon ui-icon-minusthick"></span>
+          <span class="ui-icon ui-icon-plusthick"></span>
+        </div>
+        <div id="wireframe"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+    <div id="googleLogin">
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    </div>
+    <div id="userList">
+    <table style="background-color: white"></table>
+  </div>
+</body>
+</html>

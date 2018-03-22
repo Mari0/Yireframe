@@ -1,0 +1,312 @@
+/**
+ * @module WireframeEditor
+ */
+/*global y, vls*/
+import {
+    mxEditor,
+    mxConstants,
+    mxCellRenderer,
+    mxCodecRegistry,
+    mxGraph
+} from './misc/mxExport.js';
+import KeyHandler from './KeyHandler.js';
+import ContextMenu from './ContextMenu.js';
+import Y from './../../node_modules/yjs/dist/y.js';
+import CONST from './misc/Constants.js';
+
+import DefaultShape from './shapes/DefaultShape.js';
+import VideoPlayerShape from './shapes/VideoShape.js';
+import AudioPlayerShape from './shapes/AudioShape.js';
+import ButtonShape from './shapes/ButtonShape.js';
+import TextNodeShape from './shapes/TextNodeShape.js';
+import LinkShape from './shapes/LinkShape.js';
+import ParagraphShape from './shapes/ParagraphShape.js';
+import TextAreaShape from './shapes/TextAreaShape.js';
+import TextBoxShape from './shapes/TextBoxShape.js';
+import CheckboxShape from './shapes/CheckboxShape.js';
+import RadioButtonShape from './shapes/RadioButtonShape.js';
+import ImageShapeFactory from './shapes/ImageShapeFactory.js';
+
+import UIControl from './elements/UIControl.js';
+import Link from './elements/basic/Link.js';
+import TextBox from './elements/basic/TextBox.js';
+import Paragraph from './elements/basic/Paragraph.js';
+import TextArea from './elements/basic/TextArea.js';
+import Button from './elements/basic/Button.js';
+import TextNode from './elements/basic/TextNode.js';
+import CheckBox from './elements/basic/CheckBox.js';
+import RadioBtn from './elements/basic/RadioButton.js';
+import Image from './elements/media/Image.js';
+import VideoPlayer from './elements/media/VideoPlayer.js';
+import AudioPlayer from './elements/media/AudioPlayer.js';
+import DivContainer from './elements/basic/DivContainer.js';
+import YouTube from './elements/media/YouTube.js';
+import PolymerElement from './elements/custom/PolymerElement.js';
+import Table from './elements/basic/Table.js';
+import List from './elements/basic/List.js';
+import OrderedList from './elements/basic/OrderedList.js';
+import DescriptionList from './elements/basic/DescriptionList.js';
+import Canvas from './elements/graphics/HTML5Canvas.js';
+import SVG from './elements/graphics/SVGElement.js';
+
+/**
+ * The Wireframe Editor instance manages shapes and UI control elements.
+ * Further it provides the context menu and short cuts
+ * @classdesc The main editor class of the wireframing editor 
+ * @constructor
+ * @param {Wireframe} wireframe the wireframe of the editor 
+ * @param {Palette} palette the palette
+ * @param {Object} config the configuration file
+ * @extends mxEditor 
+ */
+class Editor extends mxEditor {
+    constructor(wireframe, palette, config) {
+        super();
+        var that = this;
+
+        this.graph = wireframe;
+        this.installUndoHandler(wireframe);
+        this.setGraphContainer(wireframe.container);
+        this.setToolbarContainer(palette.container);
+        this.keyHandler = new KeyHandler(this);
+        //Editor.prototype.disableContextMenu = false;
+        new ContextMenu(this);
+        
+        UIControl.registerCodec(PolymerElement);
+        UIControl.registerCodec(Button);
+
+        mxCellRenderer.prototype.defaultShapes[VideoPlayerShape.cst.SHAPE] = VideoPlayerShape;
+        mxCellRenderer.prototype.defaultShapes[AudioPlayerShape.cst.SHAPE] = AudioPlayerShape;
+        mxCellRenderer.prototype.defaultShapes["button"] = ButtonShape;
+        mxCellRenderer.prototype.defaultShapes["link"] = LinkShape;
+        mxCellRenderer.prototype.defaultShapes["textbox"] = TextBoxShape;
+        mxCellRenderer.prototype.defaultShapes["paragraph"] = ParagraphShape;
+        mxCellRenderer.prototype.defaultShapes["textarea"] = TextAreaShape;
+        mxCellRenderer.prototype.defaultShapes["checkbox"] = CheckboxShape;
+        mxCellRenderer.prototype.defaultShapes["radio"] = RadioButtonShape;
+        mxCellRenderer.prototype.defaultShapes["image"] = ImageShapeFactory.createImageShape("image", CONST.IMAGES.IMAGE_SHAPE);
+        mxCellRenderer.prototype.defaultShapes["textnode"] = TextNodeShape;
+        mxCellRenderer.prototype.defaultShapes["default"] = DefaultShape;
+        mxCellRenderer.prototype.defaultShapes["youtube"] = ImageShapeFactory.createImageShape("youtube", CONST.IMAGES.YOUTUBE);
+        mxCellRenderer.prototype.defaultShapes["polymer"] = ImageShapeFactory.createImageShape("polymer", CONST.IMAGES.POLYMER);
+        mxCellRenderer.prototype.defaultShapes["table"] = ImageShapeFactory.createImageShape("table", CONST.IMAGES.TABLE_IMG);
+        mxCellRenderer.prototype.defaultShapes["ul"] = ImageShapeFactory.createImageShape("ul", CONST.IMAGES.UL_IMG);
+        mxCellRenderer.prototype.defaultShapes["ol"] = ImageShapeFactory.createImageShape("ol", CONST.IMAGES.OL_IMG);
+        mxCellRenderer.prototype.defaultShapes["dl"] = ImageShapeFactory.createImageShape("dl", CONST.IMAGES.DL_IMG);
+        mxCellRenderer.prototype.defaultShapes["html5canvas"] = ImageShapeFactory.createImageShape("html5canvas", CONST.IMAGES.HTML5CANVAS);
+        mxCellRenderer.prototype.defaultShapes["svg"] = ImageShapeFactory.createImageShape("svg", CONST.IMAGES.SVG);
+
+        y.share.attrs.observe(event => {
+            var name;
+            var arr = event.name.split('_');
+            var id = arr[0];
+            var cell = that.graph.getModel().getCell(id);
+            if (arr.length == 2) {
+                if (event.name.indexOf('_label') != -1) {
+                    cell.bindLabel(event.value);
+                } else if (typeof event.value === 'boolean') {
+                    name = event.name.substring(event.name.indexOf('_'));
+                    cell.setBooleanAttributeValue(name, event.value);
+                }
+                else if (typeof event.value === 'string') {
+                    name = event.name.substring(event.name.indexOf('_'));
+                    cell.setComboAttributeValue(name, event.value);
+                }
+                else if (event.value instanceof Y.Text.typeDefinition.class) {
+                    event.value.observe(cell.getYTextObserver());
+                }
+            } else {
+                var tag = cell.getTagById(arr[0] + '_' + arr[1]);
+                if (tag) {
+                    if (typeof event.value === 'boolean') {
+                        name = event.name.substring(event.name.lastIndexOf('_'));
+                        tag.setBooleanAttributeValue(name, event.value);
+                    }
+                    else if (typeof event.value === 'string') {
+                        name = event.name.substring(event.name.lastIndexOf('_'));
+                        tag.setComboAttributeValue(name, event.value);
+                    }
+                    else if (event.value instanceof Y.Text.typeDefinition.class) {
+                        event.value.observe(tag.getYTextObserver());
+                    }
+                }
+            }
+        });
+
+        //-------------------------------------------------------------------
+        // Overrides functions from Wireframe which is derived from mxGraph 
+        //-------------------------------------------------------------------
+        /**
+         * Overrides getLabel from mxGraph for the Wireframe-class
+         * @param {*} state the state
+         * @return {String} the label
+         */
+        that.graph.getLabel = function (state) {
+            var label = mxGraph.prototype.getLabel.apply(this, arguments);
+            if (state instanceof DivContainer)
+                return state.value.getAttribute('label');
+            else return label;
+        }
+        /**
+         * Overrides createGroupCell from the superclass mxGraph for the Wireframe-class
+         */
+        /*eslint-disable no-unused-vars*/
+        that.graph.createGroupCell = cells => {
+            var group = new DivContainer();
+            return group;
+        };
+        //-------------------------------------------------------------------
+
+        /**
+        * A map that maps the HTML tag name to the name of the of the class 
+        * representing the html element in the wireframing editor.
+        * @member {Object}
+        */
+        var htmlNodeMap = {};
+        htmlNodeMap[DivContainer.HTML_NODE_NAME] = DivContainer.NAME;
+        htmlNodeMap[Paragraph.HTML_NODE_NAME] = Paragraph.NAME;
+        htmlNodeMap[Button.HTML_NODE_NAME] = Button.NAME;
+        htmlNodeMap[TextArea.HTML_NODE_NAME] = TextArea.NAME;
+        htmlNodeMap[Link.HTML_NODE_NAME] = Link.NAME;
+        htmlNodeMap[TextBox.HTML_NODE_NAME] = TextBox.NAME;
+        htmlNodeMap[Image.HTML_NODE_NAME] = Image.NAME;
+        htmlNodeMap[AudioPlayer.HTML_NODE_NAME] = AudioPlayer.NAME;
+        htmlNodeMap[VideoPlayer.HTML_NODE_NAME] = VideoPlayer.NAME;
+        htmlNodeMap[TextNode.HTML_NODE_NAME] = TextNode.NAME;
+        htmlNodeMap[RadioBtn.HTML_NODE_NAME] = RadioBtn.NAME;
+        htmlNodeMap[CheckBox.HTML_NODE_NAME] = CheckBox.NAME;
+        htmlNodeMap[YouTube.HTML_NODE_NAME] = YouTube.NAME;
+        htmlNodeMap[PolymerElement.HTML_NODE_NAME] = PolymerElement.NAME;
+        htmlNodeMap[Table.HTML_NODE_NAME] = Table.NAME;
+        htmlNodeMap[List.HTML_NODE_NAME] = List.NAME;
+        htmlNodeMap[OrderedList.HTML_NODE_NAME] = OrderedList.NAME;
+        htmlNodeMap[DescriptionList.HTML_NODE_NAME] = DescriptionList.NAME;
+        htmlNodeMap[Canvas.HTML_NODE_NAME] = Canvas.NAME;
+        htmlNodeMap[SVG.HTML_NODE_NAME] = SVG.NAME;
+
+
+        /**
+        * Maps the HTML elements types defined in the VLS to their corresponding ui control element in the wireframing editor.
+        * First tries to look up the element in the htmlNodeMap and in the map-object of the config.json.
+        * If no match is found, use the default UIControl implementation.
+        * @member {Object}
+        */
+        var vlsComponents = {};
+        for (var key in vls.nodes) {
+            var node = vls.nodes[key];
+            if (node.label === 'HTML Element') {
+                for (var attrKey in node.attributes) {
+                    var attr = node.attributes[attrKey];
+                    if (attr.value === 'HTML Type') {
+                        var elements = attr.options;
+                        for (var e in elements) {
+                            if (config.html.exclude.indexOf(e) === -1) {
+                                if (config.html.map.hasOwnProperty(e))
+                                    vlsComponents[e] = config.html.map[e];
+                                else if (htmlNodeMap.hasOwnProperty(e))
+                                    vlsComponents[e] = htmlNodeMap[e];
+                                else
+                                    vlsComponents[e] = 'Default';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * A simple map the get the constructor function for the NAME of a ui element class.
+         * @member {Object}
+         */
+        var yfUIComponents = {};
+        yfUIComponents[UIControl.NAME] = UIControl;
+        yfUIComponents[DivContainer.NAME] = DivContainer;
+        yfUIComponents[Button.NAME] = Button;
+        yfUIComponents[TextArea.NAME] = TextArea;
+        yfUIComponents[Paragraph.NAME] = Paragraph;
+        yfUIComponents[TextBox.NAME] = TextBox;
+        yfUIComponents[Link.NAME] = Link;
+        yfUIComponents[TextNode.NAME] = TextNode;
+        yfUIComponents[Image.NAME] = Image;
+        yfUIComponents[AudioPlayer.NAME] = AudioPlayer;
+        yfUIComponents[VideoPlayer.NAME] = VideoPlayer;
+        yfUIComponents[CheckBox.NAME] = CheckBox;
+        yfUIComponents[RadioBtn.NAME] = RadioBtn;
+        yfUIComponents[YouTube.NAME] = YouTube;
+        yfUIComponents[PolymerElement.NAME] = PolymerElement;
+        yfUIComponents[Table.NAME] = Table;
+        yfUIComponents[List.NAME] = List;
+        yfUIComponents[OrderedList.NAME] = OrderedList;
+        yfUIComponents[DescriptionList.NAME] = DescriptionList;
+        yfUIComponents[Canvas.NAME] = Canvas;
+        yfUIComponents[SVG.NAME] = SVG;
+        /**
+         * The map contains as key as the name of the UIObjects and as value the style as String
+         * The shape has to be registered before to the mxCellRenderer-object of this class
+         * @member {Object}
+         */
+        var yfShapeMapping = {};
+        yfShapeMapping[Paragraph.NAME] = mxConstants.STYLE_SHAPE + '=paragraph;' + mxConstants.STYLE_FILLCOLOR + "=white;" + +mxConstants.STYLE_STROKECOLOR + '=black;';
+        yfShapeMapping[TextArea.NAME] = mxConstants.STYLE_SHAPE + '=textarea;' + mxConstants.STYLE_FILLCOLOR + "=white;" + +mxConstants.STYLE_STROKECOLOR + '=black;';
+        yfShapeMapping[TextNode.NAME] = mxConstants.STYLE_SHAPE + '=textnode;';
+        yfShapeMapping[Button.NAME] = mxConstants.STYLE_SHAPE + '=button;';
+        yfShapeMapping[Link.NAME] = mxConstants.STYLE_SHAPE + '=link;' + mxConstants.STYLE_FILLCOLOR + "=none;";
+        yfShapeMapping[TextBox.NAME] = mxConstants.STYLE_SHAPE + '=textbox;' + mxConstants.STYLE_FILLCOLOR + "=white;" + +mxConstants.STYLE_STROKECOLOR + '=black;';
+        yfShapeMapping[CheckBox.NAME] = mxConstants.STYLE_SHAPE + '=checkbox;' + mxConstants.STYLE_FILLCOLOR + "=white;" + +mxConstants.STYLE_STROKECOLOR + '=black;';
+        yfShapeMapping[RadioBtn.NAME] = mxConstants.STYLE_SHAPE + '=radio;' + mxConstants.STYLE_FILLCOLOR + "=white;" + +mxConstants.STYLE_STROKECOLOR + '=black;';
+
+        /**
+         * Adds a UI component to the palette and makes it drag&drop-able to the wireframe canvas
+         * @param {String} componentName the NAME of the UIControl-class
+         * @return {undefined}
+         */
+        var addUIComponent = componentName => {
+            var cell, type, shapeCell;
+            var tmp = componentName;
+            componentName = vlsComponents[componentName];
+            if (componentName === UIControl.NAME)
+                cell = new yfUIComponents[componentName](null, null, tmp);
+            else
+                cell = new yfUIComponents[componentName]();
+            if (yfShapeMapping.hasOwnProperty(componentName))
+                shapeCell = new UIControl(cell.geometry, yfShapeMapping[componentName]);
+            else
+                shapeCell = cell;
+            type = palette.createItem(shapeCell, componentName === UIControl.NAME ? tmp : componentName, false);
+            cell.makeTypeDraggable(type, wireframe);
+        }
+        /**
+         * Get the name of the UI object class associated with the provided tag name
+         * @param {String} name the name of the html tag
+         * @return {String|undefined} the name for the html tag name in the yfUIComponents-map
+         * @see yfUIComponents
+         */
+        this.getUIComponentFromHTMLName = name => {
+            if (htmlNodeMap.hasOwnProperty(name)) {
+                if (yfUIComponents.hasOwnProperty(htmlNodeMap[name])) {
+                    return yfUIComponents[htmlNodeMap[name]];
+                }
+            }
+        }
+        /**
+         * Get the yfUIComponents-map
+         * Used by the ContextMenu-module to realize creation of ui elements via context menu
+         * @return {Object}  return the yfUIComponents-map
+         * @see ContextMenu
+         */
+        this.getUIComponents = () => yfUIComponents
+
+        /**
+         * Currently this function is never used. REMOVE IT
+         * @param {String} name the html tag name
+         * @return {undefined|String} the name of the corresponding ui element
+         */
+        this.getUIComponentNameForTagName = name => htmlNodeMap.hasOwnProperty(name) ? htmlNodeMap[name] : undefined
+        for (var componentName in vlsComponents) {
+            addUIComponent(componentName);
+        }
+        palette.addLine(); //conclude with a horizontal line at the end
+        palette.createTooltips();
+    }
+}
+export default Editor;

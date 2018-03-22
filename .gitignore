@@ -1,0 +1,7 @@
+node_modules
+.vscode
+dist
+widget
+npm-debug.log
+doc
+task/config.json

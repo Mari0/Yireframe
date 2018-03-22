@@ -1,0 +1,288 @@
+#mainContainer {
+    height: 100%;
+}
+
+#wireframeContainer {
+    position: absolute;
+    top: 36px;
+    left: 84px;
+    width: 100%;
+    height: 100%;
+}
+
+#wireframeWrap {
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    width: 500px;
+    height: 510px;
+}
+
+#wireframe {
+    position: absolute;
+    background: url("../images/grid.gif");
+    left: 0px;
+    width: inherit;
+    height: inherit;
+    border: grey 0.5px solid;
+    background-color: rgba(151, 177, 131, 0.12);
+}
+
+#draggingBar {
+    position: relative;
+    text-align: center;
+    color: white;
+    left: 0px;
+    width: inherit;
+    height: 16px;
+    max-height: 16px;
+    min-height: 15px;
+    border: grey 0.5px solid;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background-color: grey;
+}
+
+#toolbox {
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
+    top: 0px;
+    left: 56px;
+    width: 100%;
+    height: 28px;
+    right: 0px;
+    background-color: #ebebeb;
+    padding: 8px;
+    /*padding-left: 10%;*/
+}
+
+#paletteContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 70px;
+    height: 100%;
+}
+
+#palette {
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    width: 70px;
+    height: 100%;
+    margin: auto;
+    background-color: #ebebeb;
+    overflow-y: overlay;
+}
+
+.item {
+    display: inline-block;
+}
+
+.item:hover {
+    border: 1px outset grey;
+    border-radius: 5px;
+}
+
+.hsplit {
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    width: 14px;
+    touch-action: none;
+    left: 70px;
+    height: 100%;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAHBAMAAADdS/HjAAAAGFBMVEUzMzP///9tbW1QUFCKiopBQUF8fHxfX1/IXlmXAAAAHUlEQVQImWMQEGAQFWUQFmYQF2cQEmIQE2MQEQEACy4BF67hpEwAAAAASUVORK5CYII=);
+    background-color: #ebebeb;
+    cursor: col-resize;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.hsplit:hover {
+    background-color: rgba(128, 128, 128, 0.37);
+}
+
+.mxToolbarMode {
+    background-color: white;
+}
+
+.mxToolbarItem {
+    border: 1px solid transparent;
+    padding: 3px;
+    margin-top: -6px;
+}
+
+.mxToolbarMode:hover,
+.mxToolbarItem:hover:not(.mxSeparator):hover {
+    border: 1px outset grey;
+    border-radius: 5px;
+}
+
+.mxSeparator {
+    height: 32px;
+}
+
+.ui-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    display: block;
+}
+
+
+/*
+.ui-resizable-n {
+    cursor: n-resize;
+    height: 7px;
+    width: 100%;
+    top: 0px;
+    left: 0;
+}
+
+.ui-resizable-n:hover {
+    border-top: 3px solid #7cc3ff;
+}
+
+.ui-resizable-s {
+    cursor: s-resize;
+    height: 7px;
+    width: 100%;
+    top :100%;
+    left: 0;
+}
+
+.ui-resizable-s:hover {
+    border-bottom: 3px solid #7cc3ff;
+}
+
+.ui-resizable-e {
+    cursor: e-resize;
+    width: 7px;
+    right: 0px;
+    top: 0;
+    height: 100%;
+}
+
+.ui-resizable-e:hover {
+    border-right: 3px solid #7cc3ff;
+}
+
+.ui-resizable-w {
+    cursor: w-resize;
+    width: 7px;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+}
+
+.ui-resizable-w:hover {
+    border-left: 3px solid #7cc3ff;
+}
+*/
+
+.ui-resizable-se {
+    cursor: se-resize;
+    width: 7px;
+    height: 7px;
+    right: 0px;
+    bottom: -18px;
+    z-index: 1!important;
+    position: absolute!important;
+}
+
+
+/*
+.ui-resizable-sw {
+    cursor: sw-resize;
+    width: 9px;
+    height: 9px;
+    left: 0px;
+    bottom: 0px;
+}
+
+.ui-resizable-sw:hover {
+    border: 3px solid #7cc3ff;
+}
+
+.ui-resizable-nw {
+    cursor: nw-resize;
+    width: 9px;
+    height: 9px;
+    left: 0px;
+    top: 0px;
+}
+
+.ui-resizable-nw:hover {
+    border: 3px solid #7cc3ff;
+}
+
+.ui-resizable-ne {
+    cursor: ne-resize;
+    width: 9px;
+    height: 9px;
+    right: 0px;
+    top: 0px;
+}
+
+.ui-resizable-ne:hover {
+    border: 3px solid #7cc3ff;
+}
+*/
+
+.ui-icon {
+    margin-top: .0em!important;
+    float: right;
+}
+
+.jstree-themeicon-custom {
+    background-size: contain!important;
+}
+
+.jstree {
+    display: inline-block;
+}
+
+.tagAttribute {
+    display: inline-block;
+}
+
+.jstree-contextmenu {
+    z-index: 1000;
+}
+
+#hierachyTree {
+    background-color: white;
+}
+
+.wfSave {
+    opacity: 0.5;
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.ui-dialog .ui-dialog-title {
+    float: inherit!important;
+}
+
+#loading {
+    width: inherit!important;
+}
+
+#loading p {
+    opacity: 0.5;
+}
+
+.ui-progressbar {
+    position: relative;
+}
+
+.progress-label {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+}
