@@ -41,5 +41,4 @@ class DescriptionList extends UIControl {
     static NAME = "Description List";
 }
 
-UIControl.registerCodec(DescriptionList);
 export default DescriptionList;

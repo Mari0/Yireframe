@@ -8,8 +8,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIControl from '../UIControl.js';
 
-window.List = List;
-
 /**
  * A HTML List element. <ul>
  * @classdesc A HTMl list element
@@ -44,5 +42,4 @@ class List extends UIControl {
 
 }
 
-UIControl.registerCodec(List);
 export default List;

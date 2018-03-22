@@ -201,8 +201,8 @@ class Wireframe extends mxGraph {
                                 this.setEventsEnabled(true);
 
                         }
-                        HierachyTree.add(cell);
                         for (let i = 0; i < cells.length; i++) {
+                            HierachyTree.add(cells[i]);
                             cells[i].createShared(event.value.userId === y.db.userId);
                         }
                         if (event.value.userId === y.db.userId) {

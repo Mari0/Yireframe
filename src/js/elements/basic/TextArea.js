@@ -8,8 +8,6 @@ import {
     mxGeometry
 } from '../../misc/mxExport.js';
 
-window.TextArea = TextArea;
-
 /**
  * A HTML text area
  * @classdesc A HTMl <textarea>-element
@@ -77,6 +75,5 @@ class TextArea extends UIText {
      */
     static NAME = "Multi-Line Text Area";
 }
-UIText.registerCodec(TextArea);
 
 export default TextArea;

@@ -9,9 +9,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIMedia from '../UIMedia.js';
 
-window.VideoPlayer = VideoPlayer;
-
-
 /**
  * The Video Player HTML 5 element
  * @classdesc <video>
@@ -65,5 +62,4 @@ class VideoPlayer extends UIMedia {
     static NAME = "Video Player";
 
 }
-UIMedia.registerCodec(VideoPlayer);
 export default VideoPlayer;

@@ -42,8 +42,8 @@ var mxToolbar = mxLib.mxToolbar;
 var mxStencil = mxLib.mxStencil;
 var mxStencilRegistry = mxLib.mxStencilRegistry;
 
-window.mxGeometry = mxGeometry;
 var mxGeometry = mxLib.mxGeometry;
+window.mxGeometry = mxGeometry;
 
 var mxDefaultKeyHandler = mxLib.mxDefaultKeyHandler;
 var mxForm = mxLib.mxForm;

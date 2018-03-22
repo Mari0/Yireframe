@@ -8,9 +8,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIControl from '../UIControl.js';
 
-
-window.DivContainer = DivContainer;
-
 /**
  * A Container for UI control elements. Corresponds to the HTML div-element
  * @classdesc A HTMl div element
@@ -56,5 +53,4 @@ class DivContainer extends UIControl {
     static NAME = "UI Component Container";
 
 }
-UIControl.registerCodec(DivContainer);
 export default DivContainer;

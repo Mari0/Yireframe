@@ -8,9 +8,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIControl from '../UIControl.js';
 
-window.SVGElement = SVGElement;
-
-
 /**
  * Represent a scalable vector graphic
  * @classdesc A <svg>-element
@@ -44,9 +41,5 @@ class SVGElement extends UIControl {
     static NAME = "SVG";
 
 }
-
-var codec = mxUtils.clone(mxCodecRegistry.getCodec(mxCell));
-codec.template = new SVGElement();
-mxCodecRegistry.register(codec);
 
 export default SVGElement;

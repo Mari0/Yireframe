@@ -8,10 +8,6 @@ import {
     mxGeometry
 } from '../../misc/mxExport.js';
 
-
-//Global for the codec converter
-window.Link = Link;
-
 /**
  * A HTML <link>
  * @classdesc A HTML link element
@@ -82,5 +78,4 @@ class Link extends UIText {
     static NAME = "Link";
 }
 
-UIText.registerCodec(Link);
 export default Link;

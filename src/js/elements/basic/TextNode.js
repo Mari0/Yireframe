@@ -6,9 +6,6 @@ import {
     mxGeometry
 } from '../../misc/mxExport.js';
 
-//Global for the codec converter
-window.TextNode = TextNode;
-
 /**
  * A simple element to represent text
  * @classdesc A HTMl <span>-element
@@ -52,5 +49,4 @@ class TextNode extends UIText {
 
 }
 
-UIText.registerCodec(TextNode);
 export default TextNode;

@@ -72,5 +72,4 @@ class CheckBox extends UIText {
 
 }
 
-UIText.registerCodec(CheckBox);
 export default CheckBox;

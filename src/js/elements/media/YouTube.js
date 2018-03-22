@@ -10,10 +10,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIControl from '../UIControl.js';
 
-
-window.YouTube = YouTube;
-
-
 /**
  * A iframe that embbeds a YouTube-link
  * @classdesc A HTML <iframe>-element that embeds a youtube link
@@ -63,9 +59,5 @@ class YouTube extends UIControl {
     static NAME = "YouTube";
 
 }
-
-var codec = mxUtils.clone(mxCodecRegistry.getCodec(mxCell));
-codec.template = new YouTube();
-mxCodecRegistry.register(codec);
 
 export default YouTube;

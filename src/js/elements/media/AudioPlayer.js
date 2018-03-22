@@ -7,8 +7,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIMedia from '../UIMedia.js';
 
-window.AudioPlayer = AudioPlayer;
-
 /**
  * The Audio Player HTML 5 element
  * @classdesc <audio>
@@ -48,6 +46,4 @@ class AudioPlayer extends UIMedia {
     static NAME = "Audio Player";
 
 }
-
-UIMedia.registerCodec(AudioPlayer);
 export default AudioPlayer;

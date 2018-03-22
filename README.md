@@ -1,6 +1,5 @@
-# CAE-Wireframing Editor
+# Yireframe
 
-The repository contains the source code for the wireframing editor used by the Community Application Editor (CAE). 
 
 ### Installation
 Make sure you have [nodejs & npm](https://nodejs.org/en/) installed. 

@@ -6,8 +6,6 @@ import {
     mxGeometry, mxCodecRegistry, mxCell, mxUtils
 } from '../../misc/mxExport.js';
 
-window.TextBox = TextBox;
-
 /**
  * A text box element
  * @classdesc A HTMl <span>-element
@@ -56,8 +54,4 @@ class TextBox extends UIText {
 
 }
 
-var codec = mxUtils.clone(mxCodecRegistry.getCodec(mxCell));
-codec.template = new TextBox();
-codec.isCellCodec = () => true;
-mxCodecRegistry.register(codec);
 export default TextBox;

@@ -72,8 +72,26 @@ class Editor extends mxEditor {
         //Editor.prototype.disableContextMenu = false;
         new ContextMenu(this);
         
-        UIControl.registerCodec(PolymerElement);
         UIControl.registerCodec(Button);
+        UIControl.registerCodec(CheckBox);
+        UIControl.registerCodec(DescriptionList);
+        UIControl.registerCodec(DivContainer);
+        UIControl.registerCodec(Link);        
+        UIControl.registerCodec(List);
+        UIControl.registerCodec(OrderedList);
+        UIControl.registerCodec(Paragraph);
+        UIControl.registerCodec(RadioBtn);
+        UIControl.registerCodec(Table);
+        UIControl.registerCodec(TextArea);
+        UIControl.registerCodec(TextBox);
+        UIControl.registerCodec(TextNode);
+        UIControl.registerCodec(PolymerElement);
+        UIControl.registerCodec(Canvas);
+        UIControl.registerCodec(SVG);
+        UIControl.registerCodec(AudioPlayer);
+        UIControl.registerCodec(Image);
+        UIControl.registerCodec(VideoPlayer);
+        UIControl.registerCodec(YouTube);
 
         mxCellRenderer.prototype.defaultShapes[VideoPlayerShape.cst.SHAPE] = VideoPlayerShape;
         mxCellRenderer.prototype.defaultShapes[AudioPlayerShape.cst.SHAPE] = AudioPlayerShape;

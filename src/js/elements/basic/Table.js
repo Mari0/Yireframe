@@ -8,8 +8,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIControl from '../UIControl.js';
 
-window.Table = Table;
-
 /**
  * A HTML table
  * @classdesc A HTMl <table>-element
@@ -43,8 +41,4 @@ class Table extends UIControl {
     static NAME = "Table";
 
 }
-
-var codec = mxUtils.clone(mxCodecRegistry.getCodec(mxCell));
-codec.template = new Table();
-mxCodecRegistry.register(codec);
 export default Table;

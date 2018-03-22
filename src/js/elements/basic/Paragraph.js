@@ -5,7 +5,6 @@ import UIText from '../UIText.js';
 import {
     mxGeometry
 } from '../../misc/mxExport.js';
-window.Paragraph = Paragraph;
 
 /**
  * A paragraph of text. <p>
@@ -50,5 +49,4 @@ class Paragraph extends UIText {
      */
     static NAME = "Paragraph of Text";
 }
-UIText.registerCodec(Paragraph);
 export default Paragraph;

@@ -8,9 +8,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIControl from '../UIControl.js';
 
-
-window.OrderedList = OrderedList;
-
 /**
  * An ordered list. <ol>
  * @classdesc A HTMl ordered list
@@ -43,5 +40,4 @@ class OrderedList extends UIControl {
     static NAME = "Ordered List";
 
 }
-UIControl.registerCodec(OrderedList);
 export default OrderedList;

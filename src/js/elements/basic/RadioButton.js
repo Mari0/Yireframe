@@ -10,10 +10,6 @@ import {
     mxGeometry
 } from '../../misc/mxExport.js';
 
-//Global for the codec converter
-window.RadioButton = RadioButton;
-
-
 /**
  * A radio button with label
  * @classdesc A radio button element
@@ -97,5 +93,4 @@ class RadioButton extends UIText {
     static HTML_NODE_NAME = 'radio';
 
 }
-UIText.registerCodec(RadioButton);
 export default RadioButton;

@@ -10,9 +10,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIControl from '../UIControl.js';
 
-
-window.Image = Image;
-
 /**
  * Represent a image
  * @classdesc A HTMl <img>-element
@@ -61,5 +58,4 @@ class Image extends UIControl {
     static NAME = "Image";
 
 }
-UIControl.registerCodec(Image);
 export default Image;

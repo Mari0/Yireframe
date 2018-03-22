@@ -8,7 +8,6 @@ import {
 } from '../../misc/mxExport.js';
 import UIControl from '../UIControl.js';
 
-window.HTML5Canvas = HTML5Canvas;
 
 /**
  * A HTML5 canvas element
@@ -42,7 +41,4 @@ class HTML5Canvas extends UIControl {
      */
     static NAME = "HTML5 Canvas";
 }
-var codec = mxUtils.clone(mxCodecRegistry.getCodec(mxCell));
-codec.template = new HTML5Canvas();
-mxCodecRegistry.register(codec);
 export default HTML5Canvas;
