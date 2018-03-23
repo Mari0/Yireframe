@@ -8,8 +8,6 @@ import YjsSync from '../src/js/misc/YjsSync.js';
 import Main from '../src/js/Main.js';
 
 import WireframeTest from './src/Wireframe.test.js';
-import WireframeToModelTest from './src/WireframeToModel.test.js';
-import ModelToWireframeTest from './src/ModelToWireframe.test.js';
 import OperationsTest from './src/Operations.test.js';
 
 import config from '../src/data/config.json';
@@ -39,8 +37,6 @@ $(function () {
             wnd.setMaximizable(true);
             var doc = mxUtils.parseXml(y.share.data.get('wireframe'));
             WireframeTest(doc.documentElement, editor.graph);
-            WireframeToModelTest();
-            ModelToWireframeTest(editor);
             OperationsTest(editor);                        
             mocha.run();
 
