@@ -13,7 +13,6 @@ import _ from 'lodash';
 import ComboAttributeMap from './misc/ComboAttributeMap.js';
 import Util from './misc/Util.js';
 
-window.WireframeModel = WireframeModel;
 
 /**
  * The data model of the wireframing editor
@@ -142,6 +141,8 @@ class WireframeModel extends mxGraphModel {
         this.getComboAttrMap = () => comboAttrMap
     }
 }
+
+window.WireframeModel = WireframeModel;
 let codec = mxCodecRegistry.getCodec(mxGraphModel);
 codec.template = new WireframeModel();
 mxCodecRegistry.addAlias('WireframeModel', 'mxGraphModel');
